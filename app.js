@@ -9,7 +9,7 @@ function init(){
         console.log('Recibido mensaje: ' + req.body);
         info.push(req.body);
         request({
-            url: 'https://api.telegram.org/bot400962350:AAF-CQuT9w759Rib92mcs2Nhlj30R3hQntw/sendMessage',
+            url: `https://api.telegram.org/bot${process.env.TOKEN}/sendMessage`,
             method: 'POST',
             json: {
                 chat_id: req.body.message.chat.id,
