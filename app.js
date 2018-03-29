@@ -4,7 +4,7 @@ function init(){
     app.get('/', async function(req, res){
         return res.json({ 'test': 'test'});
     });
-    app.listen(9000);
+    app.listen(8080);
     return app;
 }
 
