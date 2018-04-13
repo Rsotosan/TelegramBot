@@ -9,7 +9,7 @@ function init(){
         console.log('Recibido mensaje: ' + req.body);
         info.push(req.body);
         var text =  `Dijiste: ${req.body.message.text}`;
-        if(req.body.message.text.toLowerCase('hola')){
+        if(req.body.message.text.toLowerCase().indexOf('hola') > -1){
             text = 'Hola que tal :D';
         }
         request({
