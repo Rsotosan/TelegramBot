@@ -6,28 +6,31 @@ function init(){
     app.use(bodyparser.json(), bodyparser.urlencoded({extended:true}));
     var info = [];
     var stop = false;
+    var text = 'Para configurarme enviar /frase seguido de la frase que quieras que repita como un mono';
     app.post('/', async function(req, res){
         info.push(req.body);
         info.push('-----');
         if(req.body.message){
-            if(req.body.message.text = "/OFF"){
+            if(req.body.message.text === "/OFF"){
                 stop = true;
                 sendMessage('Apagando', req.body.message.chat.id);
+                return res.sendStatus(200);
             }
-            if(req.body.message.text = "/ON"){
+            if(req.body.message.text === "/ON"){
                 stop = false;
                 sendMessage('Aquí estoy de nuevo para tocaros las narices con mis mensajes repetitivos :)', req.body.message.chat.id);
+                return res.sendStatus(200);
             }
         }
         if(!stop){
-            if(req.body.new_chat_members){
-                var name = req.body.new_chat_members[0].first_name;
-                var text =  `Hola amigo ` + name + ', me gustaría saber cual es el animal más maravilloso del mundo, podrías ayudarme?';
-                sendMessage(text, req.body.message.chat.id);
+            if(req.body.message && !req.body.new_chat_members){
+                if(req.body.message.text && req.body.message.text.toLowerCase().indexOf('/frase') > -1){
+                    text = req.body.message.text.replace('/frase ', '');
+                    return res.sendStatus(200);
+                }
             }
             if(req.body.message && !req.body.new_chat_members){
                 var name = req.body.message.from.first_name;
-                var text =  `Ay amigo ` + name + ', creo que te has equivocado de animal o no se de que me estás hablando. ¿Podrías volver a intentarlo?';
                 if(req.body.message.text && req.body.message.text.toLowerCase().indexOf('flamenco') > -1){
                     text = 'Aqui iría el enlace al siguiente grupo';
                 }
